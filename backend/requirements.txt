@@ -1,7 +1,8 @@
-fastapi 
-uvicorn 
-pydantic[email]
-pymongo 
+fastapi
+uvicorn[standard]
+pymongo
 passlib[bcrypt]
-python-jose[cryptography]
+python-jose
+pydantic[email]
+bson
 python-dotenv
