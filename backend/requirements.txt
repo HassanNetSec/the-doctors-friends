@@ -4,5 +4,4 @@ pymongo
 passlib[bcrypt]
 python-jose
 pydantic[email]
-bson
 python-dotenv
