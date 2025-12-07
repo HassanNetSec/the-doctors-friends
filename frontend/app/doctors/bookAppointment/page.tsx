@@ -154,7 +154,7 @@ const BookAppointmentContent = () => {
     
     try {
         // This initiates the POST request to your serverless function
-        const response = await fetch('/', {
+        const response = await fetch('/api/sendAppointmentEmail', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
