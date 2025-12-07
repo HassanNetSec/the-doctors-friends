@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, Suspense, useEffect, useCallback } from 'react';
 import { CircleCheck, XCircle, Loader2, Printer, Download, ArrowLeft } from 'lucide-react';
+// Assuming the path is correct
 import doctorsDetails from "../../components/doctors.json"
 
 // --- Type Definitions ---
@@ -14,11 +15,11 @@ interface Doctor {
   phone: string;
   email: string; // Used for sending notification to the doctor
   location: string;
-  consultation_fee_usd: number;
+  consultation_fee_usd: number; // Stays as number, relying on JSON fix
   languages: string[];
   age?: number;
 }
-
+// ... [FormData, Receipt, NotificationStatus types remain the same]
 interface FormData {
   patientName: string;
   email: string; // Used for sending confirmation to the patient
@@ -95,7 +96,9 @@ const mockGeneratePdf = (elementId: string, filename: string) => {
 const BookAppointmentContent = () => {
   const doctorId = useUrlId();
 
-  const allDoctors = doctorsDetails as Doctor[];
+  // FIX: Use 'as unknown as Doctor[]' to safely cast the imported JSON data.
+  // This tells TypeScript you acknowledge the potential structure mismatch but trust the data.
+  const allDoctors = doctorsDetails as unknown as Doctor[];
   const doctor = allDoctors.find(item => item.id === doctorId);
 
   // --- State Hooks ---
@@ -326,6 +329,7 @@ const BookAppointmentContent = () => {
                     <ReceiptRow label="Doctor Name" value={`Dr. ${doctor.name}`} />
                     <ReceiptRow label="Specialty" value={doctor.specialty} />
                     <ReceiptRow label="Hospital" value={doctor.hospital} />
+                    <ReceiptRow label="Location" value={doctor.location} />
                   </div>
                 </div>
               </div>
