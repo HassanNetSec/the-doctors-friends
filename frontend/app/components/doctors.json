@@ -10,7 +10,7 @@
     "phone": "0333 1234567",
     "email": "u2023243@giki.edu.pk",
     "location": "Jehangira, KP",
-    "consultation_fee_pkr": 5500,
+    "consultation_fee_usd": 5500,
     "languages": [
       "English",
       "Urdu",
@@ -28,7 +28,7 @@
     "phone": "0300 2345678",
     "email": "faraz.khan@internalmed.pk",
     "location": "Topi, KP",
-    "consultation_fee_pkr": 3800,
+    "consultation_fee_usd": 3800,
     "languages": [
       "English",
       "Urdu",
@@ -46,7 +46,7 @@
     "phone": "0345 3456789",
     "email": "haider.ali@fmc.pk",
     "location": "Mardan, KP",
-    "consultation_fee_pkr": 2500,
+    "consultation_fee_usd": 2500,
     "languages": [
       "English",
       "Urdu"
@@ -63,7 +63,7 @@
     "phone": "0313 4567890",
     "email": "naveed.david@ortho.pk",
     "location": "Jehangira, KP",
-    "consultation_fee_pkr": 4800,
+    "consultation_fee_usd": 4800,
     "languages": [
       "English",
       "Urdu"
@@ -80,7 +80,7 @@
     "phone": "0321 5678901",
     "email": "bilal.tariq@skinhealth.pk",
     "location": "Topi, KP",
-    "consultation_fee_pkr": 4000,
+    "consultation_fee_usd": 4000,
     "languages": [
       "English",
       "Pashto"
@@ -97,7 +97,7 @@
     "phone": "0336 6789012",
     "email": "usman.farooq@gci.pk",
     "location": "Mardan, KP",
-    "consultation_fee_pkr": 6500,
+    "consultation_fee_usd": 6500,
     "languages": [
       "English",
       "Urdu",
@@ -115,7 +115,7 @@
     "phone": "0311 7890123",
     "email": "zeeshan.lee@neurocare.pk",
     "location": "Jehangira, KP",
-    "consultation_fee_pkr": 5200,
+    "consultation_fee_usd": 5200,
     "languages": [
       "English",
       "Urdu",
@@ -133,7 +133,7 @@
     "phone": "0343 8901234",
     "email": "sarmad.rizvi@menshealth.pk",
     "location": "Topi, KP",
-    "consultation_fee_pkr": 4500,
+    "consultation_fee_usd": 4500,
     "languages": [
       "English",
       "Urdu"
@@ -150,7 +150,7 @@
     "phone": "0335 9012345",
     "email": "ismail.shah@mindful.pk",
     "location": "Mardan, KP",
-    "consultation_fee_pkr": 3800,
+    "consultation_fee_usd": 3800,
     "languages": [
       "English",
       "Urdu",
@@ -168,7 +168,7 @@
     "phone": "0301 0123456",
     "email": "jawad.sohail@urocenter.pk",
     "location": "Jehangira, KP",
-    "consultation_fee_pkr": 5100,
+    "consultation_fee_usd": 5100,
     "languages": [
       "English",
       "Urdu"
