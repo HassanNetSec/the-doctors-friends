@@ -1,0 +1,827 @@
+[
+  {
+    "id": 1,
+    "name": "Dr. Anya Sharma",
+    "age": 45,
+    "specialty": "Cardiology",
+    "experience_years": 18,
+    "hospital": "City General Hospital",
+    "rating": 4.9,
+    "phone": "(555) 123-4567",
+    "email": "u2023243@giki.edu.pk",
+    "location": "New York, NY",
+    "consultation_fee_usd": 250,
+    "languages": [
+      "English",
+      "Hindi"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Dr. Ben Carter",
+    "age": 38,
+    "specialty": "Pediatrics",
+    "experience_years": 12,
+    "hospital": "Little Hearts Clinic",
+    "rating": 4.7,
+    "phone": "(555) 234-5678",
+    "email": "ben.carter@pediatric.org",
+    "location": "Los Angeles, CA",
+    "consultation_fee_usd": 150,
+    "languages": [
+      "English",
+      "Spanish"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Dr. Clara Jones",
+    "age": 62,
+    "specialty": "General Practice",
+    "experience_years": 35,
+    "hospital": "Family Wellness Center",
+    "rating": 4.5,
+    "phone": "(555) 345-6789",
+    "email": "clara.jones@fmc.net",
+    "location": "Chicago, IL",
+    "consultation_fee_usd": 90,
+    "languages": [
+      "English"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Dr. David Chen",
+    "age": 51,
+    "specialty": "Orthopedics",
+    "experience_years": 25,
+    "hospital": "Elite Sports Medicine",
+    "rating": 4.8,
+    "phone": "(555) 456-7890",
+    "email": "david.chen@sportsmed.com",
+    "location": "Houston, TX",
+    "consultation_fee_usd": 200,
+    "languages": [
+      "English",
+      "Mandarin"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Dr. Emily Ross",
+    "age": 33,
+    "specialty": "Dermatology",
+    "experience_years": 8,
+    "hospital": "Skin & Laser Center",
+    "rating": 4.6,
+    "phone": "(555) 567-8901",
+    "email": "emily.ross@skinhealth.net",
+    "location": "Phoenix, AZ",
+    "consultation_fee_usd": 180,
+    "languages": [
+      "English"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Dr. Frank Miller",
+    "age": 59,
+    "specialty": "Oncology",
+    "experience_years": 30,
+    "hospital": "Global Cancer Institute",
+    "rating": 5.0,
+    "phone": "(555) 678-9012",
+    "email": "frank.miller@gci.org",
+    "location": "Philadelphia, PA",
+    "consultation_fee_usd": 280,
+    "languages": [
+      "English",
+      "French"
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Dr. Grace Lee",
+    "age": 41,
+    "specialty": "Neurology",
+    "experience_years": 15,
+    "hospital": "Brain & Spine Clinic",
+    "rating": 4.7,
+    "phone": "(555) 789-0123",
+    "email": "grace.lee@neurocare.com",
+    "location": "San Antonio, TX",
+    "consultation_fee_usd": 220,
+    "languages": [
+      "English",
+      "Korean"
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Dr. Henry Davis",
+    "age": 55,
+    "specialty": "Gastroenterology",
+    "experience_years": 28,
+    "hospital": "Digestive Health Center",
+    "rating": 4.4,
+    "phone": "(555) 890-1234",
+    "email": "henry.davis@dhc.net",
+    "location": "San Diego, CA",
+    "consultation_fee_usd": 190,
+    "languages": [
+      "English"
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Dr. Isabella Khan",
+    "age": 36,
+    "specialty": "Psychiatry",
+    "experience_years": 10,
+    "hospital": "Mindful Living Practice",
+    "rating": 4.9,
+    "phone": "(555) 901-2345",
+    "email": "isabella.khan@mindful.org",
+    "location": "Dallas, TX",
+    "consultation_fee_usd": 175,
+    "languages": [
+      "English",
+      "Urdu"
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Dr. Jack Wilson",
+    "age": 48,
+    "specialty": "Urology",
+    "experience_years": 22,
+    "hospital": "Regional Urological Center",
+    "rating": 4.3,
+    "phone": "(555) 012-3456",
+    "email": "jack.wilson@urocenter.com",
+    "location": "San Jose, CA",
+    "consultation_fee_usd": 210,
+    "languages": [
+      "English"
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Dr. Kelly Brown",
+    "age": 31,
+    "specialty": "Ophthalmology",
+    "experience_years": 6,
+    "hospital": "Vision Care Associates",
+    "rating": 4.6,
+    "phone": "(555) 112-2334",
+    "email": "kelly.brown@vision.net",
+    "location": "Austin, TX",
+    "consultation_fee_usd": 140,
+    "languages": [
+      "English"
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Dr. Leo Martinez",
+    "age": 65,
+    "specialty": "Internal Medicine",
+    "experience_years": 40,
+    "hospital": "Elder Care Clinic",
+    "rating": 4.8,
+    "phone": "(555) 223-3445",
+    "email": "leo.martinez@ecclinic.org",
+    "location": "Jacksonville, FL",
+    "consultation_fee_usd": 100,
+    "languages": [
+      "English",
+      "Spanish"
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Dr. Mia Thompson",
+    "age": 39,
+    "specialty": "Endocrinology",
+    "experience_years": 14,
+    "hospital": "Hormone Health Center",
+    "rating": 4.5,
+    "phone": "(555) 334-4556",
+    "email": "mia.thompson@hcc.com",
+    "location": "Indianapolis, IN",
+    "consultation_fee_usd": 185,
+    "languages": [
+      "English"
+    ]
+  },
+  {
+    "id": 14,
+    "name": "Dr. Noah White",
+    "age": 53,
+    "specialty": "Pulmonology",
+    "experience_years": 27,
+    "hospital": "Breathing Specialists",
+    "rating": 4.7,
+    "phone": "(555) 445-5667",
+    "email": "noah.white@lungs.net",
+    "location": "San Francisco, CA",
+    "consultation_fee_usd": 230,
+    "languages": [
+      "English",
+      "German"
+    ]
+  },
+  {
+    "id": 15,
+    "name": "Dr. Olivia Green",
+    "age": 43,
+    "specialty": "Rheumatology",
+    "experience_years": 16,
+    "hospital": "Joint and Bone Institute",
+    "rating": 4.6,
+    "phone": "(555) 556-6778",
+    "email": "olivia.green@jbi.org",
+    "location": "Columbus, OH",
+    "consultation_fee_usd": 170,
+    "languages": [
+      "English"
+    ]
+  },
+  {
+    "id": 16,
+    "name": "Dr. Peter Hall",
+    "age": 37,
+    "specialty": "Anesthesiology",
+    "experience_years": 11,
+    "hospital": "Metro Surgery Center",
+    "rating": 4.9,
+    "phone": "(555) 667-7889",
+    "email": "peter.hall@anesthesia.com",
+    "location": "Charlotte, NC",
+    "consultation_fee_usd": 120,
+    "languages": [
+      "English"
+    ]
+  },
+  {
+    "id": 17,
+    "name": "Dr. Quinn Adams",
+    "age": 50,
+    "specialty": "Nephrology",
+    "experience_years": 24,
+    "hospital": "Kidney & Dialysis Clinic",
+    "rating": 4.2,
+    "phone": "(555) 778-8990",
+    "email": "quinn.adams@kidneycare.net",
+    "location": "Fort Worth, TX",
+    "consultation_fee_usd": 205,
+    "languages": [
+      "English"
+    ]
+  },
+  {
+    "id": 18,
+    "name": "Dr. Rachel Kim",
+    "age": 46,
+    "specialty": "Radiology",
+    "experience_years": 20,
+    "hospital": "Advanced Imaging Labs",
+    "rating": 4.5,
+    "phone": "(555) 889-9001",
+    "email": "rachel.kim@radlabs.org",
+    "location": "Detroit, MI",
+    "consultation_fee_usd": 160,
+    "languages": [
+      "English",
+      "Korean"
+    ]
+  },
+  {
+    "id": 19,
+    "name": "Dr. Sam Baker",
+    "age": 35,
+    "specialty": "Emergency Medicine",
+    "experience_years": 9,
+    "hospital": "County Trauma Center",
+    "rating": 4.8,
+    "phone": "(555) 990-0112",
+    "email": "sam.baker@trauma.com",
+    "location": "El Paso, TX",
+    "consultation_fee_usd": 130,
+    "languages": [
+      "English"
+    ]
+  },
+  {
+    "id": 20,
+    "name": "Dr. Tara Vasquez",
+    "age": 58,
+    "specialty": "Geriatrics",
+    "experience_years": 32,
+    "hospital": "Golden Years Residence",
+    "rating": 4.4,
+    "phone": "(555) 001-1223",
+    "email": "tara.vasquez@gyr.net",
+    "location": "Memphis, TN",
+    "consultation_fee_usd": 110,
+    "languages": [
+      "English",
+      "Spanish"
+    ]
+  },
+  {
+    "id": 21,
+    "name": "Dr. Uma Singh",
+    "age": 40,
+    "specialty": "Family Medicine",
+    "experience_years": 15,
+    "hospital": "Community Health Clinic",
+    "rating": 4.7,
+    "phone": "(555) 112-3344",
+    "email": "uma.singh@chc.org",
+    "location": "Boston, MA",
+    "consultation_fee_usd": 125,
+    "languages": [
+      "English",
+      "Punjabi"
+    ]
+  },
+  {
+    "id": 22,
+    "name": "Dr. Victor Wong",
+    "age": 47,
+    "specialty": "Plastic Surgery",
+    "experience_years": 21,
+    "hospital": "Elite Aesthetics Center",
+    "rating": 4.6,
+    "phone": "(555) 223-4455",
+    "email": "victor.wong@aesthetics.com",
+    "location": "Seattle, WA",
+    "consultation_fee_usd": 300,
+    "languages": [
+      "English",
+      "Cantonese"
+    ]
+  },
+  {
+    "id": 23,
+    "name": "Dr. Wendy Cook",
+    "age": 32,
+    "specialty": "Sports Medicine",
+    "experience_years": 7,
+    "hospital": "Pro-Active Rehab",
+    "rating": 4.9,
+    "phone": "(555) 334-5566",
+    "email": "wendy.cook@proactive.net",
+    "location": "Denver, CO",
+    "consultation_fee_usd": 165,
+    "languages": [
+      "English"
+    ]
+  },
+  {
+    "id": 24,
+    "name": "Dr. Xavier Ponds",
+    "age": 60,
+    "specialty": "Hematology",
+    "experience_years": 33,
+    "hospital": "Blood Health Institute",
+    "rating": 4.3,
+    "phone": "(555) 445-6677",
+    "email": "xavier.ponds@bloodhealth.org",
+    "location": "Washington, DC",
+    "consultation_fee_usd": 240,
+    "languages": [
+      "English",
+      "Portuguese"
+    ]
+  },
+  {
+    "id": 25,
+    "name": "Dr. Yvonne Zang",
+    "age": 49,
+    "specialty": "Occupational Medicine",
+    "experience_years": 23,
+    "hospital": "Corporate Wellness Group",
+    "rating": 4.5,
+    "phone": "(555) 556-7788",
+    "email": "yvonne.zang@corpwell.com",
+    "location": "Nashville, TN",
+    "consultation_fee_usd": 155,
+    "languages": [
+      "English",
+      "Tagalog"
+    ]
+  },
+  {
+    "id": 26,
+    "name": "Dr. Adam Hall",
+    "age": 34,
+    "specialty": "Podiatry",
+    "experience_years": 9,
+    "hospital": "Foot & Ankle Clinic",
+    "rating": 4.7,
+    "phone": "(555) 667-8899",
+    "email": "adam.hall@footcare.net",
+    "location": "Portland, OR",
+    "consultation_fee_usd": 145,
+    "languages": [
+      "English"
+    ]
+  },
+  {
+    "id": 27,
+    "name": "Dr. Beatrice Lee",
+    "age": 56,
+    "specialty": "Thoracic Surgery",
+    "experience_years": 30,
+    "hospital": "Heart & Lung Institute",
+    "rating": 4.8,
+    "phone": "(555) 778-9900",
+    "email": "beatrice.lee@hli.org",
+    "location": "Las Vegas, NV",
+    "consultation_fee_usd": 260,
+    "languages": [
+      "English"
+    ]
+  },
+  {
+    "id": 28,
+    "name": "Dr. Caleb Roy",
+    "age": 42,
+    "specialty": "Addiction Medicine",
+    "experience_years": 16,
+    "hospital": "Recovery Solutions",
+    "rating": 4.6,
+    "phone": "(555) 889-0011",
+    "email": "caleb.roy@recoverysol.com",
+    "location": "Oklahoma City, OK",
+    "consultation_fee_usd": 170,
+    "languages": [
+      "English",
+      "Arabic"
+    ]
+  },
+  {
+    "id": 29,
+    "name": "Dr. Daisy Evans",
+    "age": 37,
+    "specialty": "Reproductive Endocrinology",
+    "experience_years": 11,
+    "hospital": "Fertility Institute",
+    "rating": 4.9,
+    "phone": "(555) 990-1122",
+    "email": "daisy.evans@fertility.net",
+    "location": "Milwaukee, WI",
+    "consultation_fee_usd": 235,
+    "languages": [
+      "English"
+    ]
+  },
+  {
+    "id": 30,
+    "name": "Dr. Ethan Green",
+    "age": 52,
+    "specialty": "Palliative Care",
+    "experience_years": 26,
+    "hospital": "Comfort & Dignity Group",
+    "rating": 4.4,
+    "phone": "(555) 001-2233",
+    "email": "ethan.green@palliative.org",
+    "location": "Baltimore, MD",
+    "consultation_fee_usd": 105,
+    "languages": [
+      "English"
+    ]
+  },
+  {
+    "id": 31,
+    "name": "Dr. Sofia Ruiz",
+    "age": 44,
+    "specialty": "Dermatology",
+    "experience_years": 19,
+    "hospital": "Advanced Skin Care",
+    "rating": 4.8,
+    "phone": "(555) 100-2000",
+    "email": "sofia.ruiz@dermpro.com",
+    "location": "Miami, FL",
+    "consultation_fee_usd": 195,
+    "languages": [
+      "English",
+      "Spanish"
+    ]
+  },
+  {
+    "id": 32,
+    "name": "Dr. William Bell",
+    "age": 30,
+    "specialty": "General Surgery",
+    "experience_years": 5,
+    "hospital": "University Medical Center",
+    "rating": 4.5,
+    "phone": "(555) 200-3000",
+    "email": "william.bell@umc.net",
+    "location": "Kansas City, MO",
+    "consultation_fee_usd": 180,
+    "languages": [
+      "English"
+    ]
+  },
+  {
+    "id": 33,
+    "name": "Dr. Amelia Jones",
+    "age": 61,
+    "specialty": "Psychiatry",
+    "experience_years": 34,
+    "hospital": "Mind Matters Clinic",
+    "rating": 4.7,
+    "phone": "(555) 300-4000",
+    "email": "amelia.jones@mindmatters.org",
+    "location": "Raleigh, NC",
+    "consultation_fee_usd": 160,
+    "languages": [
+      "English"
+    ]
+  },
+  {
+    "id": 34,
+    "name": "Dr. Michael Wong",
+    "age": 54,
+    "specialty": "Otolaryngology (ENT)",
+    "experience_years": 29,
+    "hospital": "Ear, Nose & Throat Center",
+    "rating": 4.6,
+    "phone": "(555) 400-5000",
+    "email": "michael.wong@entcare.com",
+    "location": "Atlanta, GA",
+    "consultation_fee_usd": 175,
+    "languages": [
+      "English",
+      "Mandarin"
+    ]
+  },
+  {
+    "id": 35,
+    "name": "Dr. Lena Petrova",
+    "age": 39,
+    "specialty": "Anesthesiology",
+    "experience_years": 14,
+    "hospital": "Surgical Services",
+    "rating": 4.5,
+    "phone": "(555) 500-6000",
+    "email": "lena.petrova@surgery.net",
+    "location": "Omaha, NE",
+    "consultation_fee_usd": 115,
+    "languages": [
+      "English",
+      "Russian"
+    ]
+  },
+  {
+    "id": 36,
+    "name": "Dr. Sanjay Patel",
+    "age": 47,
+    "specialty": "Cardiology",
+    "experience_years": 22,
+    "hospital": "Heart Health Specialists",
+    "rating": 4.9,
+    "phone": "(555) 600-7000",
+    "email": "sanjay.patel@heartcare.org",
+    "location": "Tampa, FL",
+    "consultation_fee_usd": 245,
+    "languages": [
+      "English",
+      "Gujarati"
+    ]
+  },
+  {
+    "id": 37,
+    "name": "Dr. Chloe Harris",
+    "age": 33,
+    "specialty": "Pediatrics",
+    "experience_years": 8,
+    "hospital": "Children's Care Group",
+    "rating": 4.8,
+    "phone": "(555) 700-8000",
+    "email": "chloe.harris@kidsdoc.com",
+    "location": "Cleveland, OH",
+    "consultation_fee_usd": 140,
+    "languages": [
+      "English"
+    ]
+  },
+  {
+    "id": 38,
+    "name": "Dr. Ethan King",
+    "age": 57,
+    "specialty": "Orthopedics",
+    "experience_years": 31,
+    "hospital": "Bone & Joint Clinic",
+    "rating": 4.4,
+    "phone": "(555) 800-9000",
+    "email": "ethan.king@bonejoint.net",
+    "location": "Minneapolis, MN",
+    "consultation_fee_usd": 215,
+    "languages": [
+      "English"
+    ]
+  },
+  {
+    "id": 39,
+    "name": "Dr. Julia Rodriguez",
+    "age": 41,
+    "specialty": "Obstetrics/Gynecology",
+    "experience_years": 16,
+    "hospital": "Women's Health Partners",
+    "rating": 4.6,
+    "phone": "(555) 900-0111",
+    "email": "julia.rodriguez@whp.org",
+    "location": "New Orleans, LA",
+    "consultation_fee_usd": 185,
+    "languages": [
+      "English",
+      "Spanish"
+    ]
+  },
+  {
+    "id": 40,
+    "name": "Dr. Omar Hassan",
+    "age": 46,
+    "specialty": "Internal Medicine",
+    "experience_years": 20,
+    "hospital": "Integrated Medical Group",
+    "rating": 4.7,
+    "phone": "(555) 011-1222",
+    "email": "omar.hassan@img.com",
+    "location": "Albuquerque, NM",
+    "consultation_fee_usd": 135,
+    "languages": [
+      "English",
+      "Farsi"
+    ]
+  },
+  {
+    "id": 41,
+    "name": "Dr. Phoebe Vance",
+    "age": 36,
+    "specialty": "Urology",
+    "experience_years": 11,
+    "hospital": "Advanced Urological Care",
+    "rating": 4.5,
+    "phone": "(555) 122-3344",
+    "email": "phoebe.vance@urology.net",
+    "location": "Tucson, AZ",
+    "consultation_fee_usd": 190,
+    "languages": [
+      "English"
+    ]
+  },
+  {
+    "id": 42,
+    "name": "Dr. Robert Liu",
+    "age": 63,
+    "specialty": "Pulmonology",
+    "experience_years": 38,
+    "hospital": "Lung Health Associates",
+    "rating": 4.3,
+    "phone": "(555) 233-4455",
+    "email": "robert.liu@lha.org",
+    "location": "Fresno, CA",
+    "consultation_fee_usd": 225,
+    "languages": [
+      "English",
+      "Mandarin"
+    ]
+  },
+  {
+    "id": 43,
+    "name": "Dr. Serena Chen",
+    "age": 50,
+    "specialty": "Rheumatology",
+    "experience_years": 25,
+    "hospital": "Arthritis & Immunity Center",
+    "rating": 4.8,
+    "phone": "(555) 344-5566",
+    "email": "serena.chen@aic.com",
+    "location": "Sacramento, CA",
+    "consultation_fee_usd": 175,
+    "languages": [
+      "English"
+    ]
+  },
+  {
+    "id": 44,
+    "name": "Dr. Timothy O'Neil",
+    "age": 38,
+    "specialty": "Emergency Medicine",
+    "experience_years": 13,
+    "hospital": "Metropolitan ER",
+    "rating": 4.9,
+    "phone": "(555) 455-6677",
+    "email": "timothy.oneil@metroer.net",
+    "location": "Virginia Beach, VA",
+    "consultation_fee_usd": 130,
+    "languages": [
+      "English"
+    ]
+  },
+  {
+    "id": 45,
+    "name": "Dr. Valerie Chou",
+    "age": 43,
+    "specialty": "Endocrinology",
+    "experience_years": 17,
+    "hospital": "Diabetes & Thyroid Clinic",
+    "rating": 4.6,
+    "phone": "(555) 566-7788",
+    "email": "valerie.chou@dtclinic.org",
+    "location": "Mesa, AZ",
+    "consultation_fee_usd": 190,
+    "languages": [
+      "English",
+      "Taiwanese"
+    ]
+  },
+  {
+    "id": 46,
+    "name": "Dr. Greg Hayes",
+    "age": 55,
+    "specialty": "Geriatrics",
+    "experience_years": 30,
+    "hospital": "Senior Living Medical",
+    "rating": 4.4,
+    "phone": "(555) 677-8899",
+    "email": "greg.hayes@slm.com",
+    "location": "Tulsa, OK",
+    "consultation_fee_usd": 105,
+    "languages": [
+      "English"
+    ]
+  },
+  {
+    "id": 47,
+    "name": "Dr. Iris Blake",
+    "age": 31,
+    "specialty": "Family Medicine",
+    "experience_years": 6,
+    "hospital": "New Generation Primary Care",
+    "rating": 4.7,
+    "phone": "(555) 788-9900",
+    "email": "iris.blake@ngpc.net",
+    "location": "Wichita, KS",
+    "consultation_fee_usd": 120,
+    "languages": [
+      "English"
+    ]
+  },
+  {
+    "id": 48,
+    "name": "Dr. Neil Scott",
+    "age": 48,
+    "specialty": "Oncology",
+    "experience_years": 23,
+    "hospital": "Comprehensive Cancer Care",
+    "rating": 4.9,
+    "phone": "(555) 899-0011",
+    "email": "neil.scott@ccc.org",
+    "location": "Colorado Springs, CO",
+    "consultation_fee_usd": 275,
+    "languages": [
+      "English"
+    ]
+  },
+  {
+    "id": 49,
+    "name": "Dr. Laura Mendez",
+    "age": 40,
+    "specialty": "Neurology",
+    "experience_years": 15,
+    "hospital": "Head & Pain Institute",
+    "rating": 4.5,
+    "phone": "(555) 900-1122",
+    "email": "laura.mendez@hpi.com",
+    "location": "Arlington, TX",
+    "consultation_fee_usd": 210,
+    "languages": [
+      "English",
+      "Spanish"
+    ]
+  },
+  {
+    "id": 50,
+    "name": "Dr. Kenzo Sato",
+    "age": 60,
+    "specialty": "General Practice",
+    "experience_years": 35,
+    "hospital": "Sato Clinic",
+    "rating": 4.2,
+    "phone": "(555) 011-2233",
+    "email": "kenzo.sato@sato.net",
+    "location": "Honolulu, HI",
+    "consultation_fee_usd": 95,
+    "languages": [
+      "English",
+      "Japanese"
+    ]
+  }
+]
