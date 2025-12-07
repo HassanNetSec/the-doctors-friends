@@ -3,9 +3,7 @@ import React, { useState, Suspense, useEffect, useCallback } from 'react';
 import { CircleCheck, XCircle, Loader2, Printer, Download, ArrowLeft } from 'lucide-react';
 import doctorsDetails from "../../components/doctors.json"
 
-// --- Type Definitions (Keep these at the top) ---
-// ... (Doctor, FormData, Receipt, NotificationStatus types) ...
-
+// --- Type Definitions ---
 interface Doctor {
   id: number;
   name: string;
@@ -14,7 +12,7 @@ interface Doctor {
   hospital: string;
   rating: number;
   phone: string;
-  email: string;
+  email: string; // Used for sending notification to the doctor
   location: string;
   consultation_fee_usd: number;
   languages: string[];
@@ -23,7 +21,7 @@ interface Doctor {
 
 interface FormData {
   patientName: string;
-  email: string;
+  email: string; // Used for sending confirmation to the patient
   phone: string;
   date: string;
   time: string;
@@ -40,7 +38,7 @@ interface Receipt {
 type NotificationStatus = 'idle' | 'success' | 'error';
 
 
-// --- Sub-components & Hooks (Move these outside the main content component) ---
+// --- Sub-components & Hooks ---
 
 const ReceiptRow: React.FC<{ label: string; value: string }> = React.memo(({ label, value }) => (
   <div className="flex justify-between items-start">
@@ -49,10 +47,6 @@ const ReceiptRow: React.FC<{ label: string; value: string }> = React.memo(({ lab
   </div>
 ));
 
-/**
- * ✅ FIX: This component is used by the parent <Suspense>, so it must be defined 
- * in the same or a globally accessible scope.
- */
 const LoadingState = () => (
   <div className="min-h-screen flex items-center justify-center bg-gray-50">
     <div className="text-center">
@@ -85,17 +79,17 @@ const useUrlId = (): number | undefined => {
 const mockGeneratePdf = (elementId: string, filename: string) => {
     const element = document.getElementById(elementId);
     if (element) {
-        console.log(`[MOCK PDF] Simulating PDF generation for element ID: ${elementId}`);
-        console.log(`[MOCK PDF] File: ${filename}.pdf`);
-        alert(`Download simulation complete! File: ${filename}.pdf`);
+      console.log(`[MOCK PDF] Simulating PDF generation for element ID: ${elementId}`);
+      console.log(`[MOCK PDF] File: ${filename}.pdf`);
+      alert(`Download simulation complete! File: ${filename}.pdf`);
     } else {
-        console.error(`Element with ID ${elementId} not found.`);
+      console.error(`Element with ID ${elementId} not found.`);
     }
 };
 
 
 // ----------------------------------------------------------------------------------
-// ## BookAppointmentContent Component
+// ## BookAppointmentContent Component (Main Logic)
 // ----------------------------------------------------------------------------------
 
 const BookAppointmentContent = () => {
@@ -154,18 +148,46 @@ const BookAppointmentContent = () => {
         setNotificationMessage('Cannot download: Receipt data is missing.');
     }
   }, [receipt, doctor]);
-
-  const sendEmailNotification = async () => {
-    if (!doctor) return { success: false, message: 'Doctor information not found' };
-
-    // MOCK: Simulate success after a delay
-    await new Promise(resolve => setTimeout(resolve, 1500)); 
-    console.log("📧 MOCK EMAIL SENT: Doctor was notified.");
+  
+  // 📧 NEW: Function to call the Next.js API route
+  const sendEmailNotification = async (currentDoctor: Doctor, currentFormData: FormData, currentReceiptData: Receipt) => {
     
-    return {
-      success: true,
-      message: 'Booking completed! Doctor successfully notified (MOCK success).'
-    };
+    try {
+        // This initiates the POST request to your serverless function
+        const response = await fetch('/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+                doctor: currentDoctor, 
+                formData: currentFormData, 
+                receiptData: currentReceiptData 
+            }),
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            console.log("📧 EMAIL API SUCCESS:", data.message);
+            return { 
+                success: true, 
+                message: 'Booking completed! Confirmation email sent to you and the doctor.'
+            };
+        } else {
+            console.error("📧 EMAIL API FAILED:", data.message);
+            return { 
+                success: false, 
+                message: `Booking Recorded, but email failed: ${data.message}. Check credentials.`
+            };
+        }
+    } catch (error) {
+        console.error("NETWORK ERROR sending email:", error);
+        return { 
+          success: false, 
+          message: 'Booking Recorded, but a network error prevented email notification.'
+        };
+    }
   };
 
   // --- Core Submission Logic ---
@@ -177,23 +199,25 @@ const BookAppointmentContent = () => {
     setNotificationStatus('idle');
     setNotificationMessage(null);
 
-    try {
-        const emailResult = await sendEmailNotification();
-        
-        const receiptData: Receipt = {
-            appointmentId: generateAppointmentId(),
-            patientId: generatePatientId(),
-            bookingDate: new Date().toLocaleString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit'
-            })
-        };
-        
-        setReceipt(receiptData);
+    // 1. Generate local data (Receipt)
+    const receiptData: Receipt = {
+        appointmentId: generateAppointmentId(),
+        patientId: generatePatientId(),
+        bookingDate: new Date().toLocaleString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        })
+    };
 
+    try {
+        // 2. Attempt to send email via API route
+        const emailResult = await sendEmailNotification(doctor, formData, receiptData);
+        
+        // 3. Update UI state
+        setReceipt(receiptData);
         setNotificationStatus(emailResult.success ? 'success' : 'error');
         setNotificationMessage(emailResult.message);
 
@@ -230,6 +254,7 @@ const BookAppointmentContent = () => {
     let displayDate = 'N/A';
     try {
         const dateParts = formData.date.split('-');
+        // Note: Using UTC in Date constructor avoids local time zone issues when parsing YYYY-MM-DD
         const appointmentDate = new Date(Date.UTC(parseInt(dateParts[0]), parseInt(dateParts[1]) - 1, parseInt(dateParts[2])));
         displayDate = appointmentDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     } catch (e) { /* silent error */ }
@@ -246,7 +271,7 @@ const BookAppointmentContent = () => {
               <XCircle className="w-20 h-20 text-red-600 mx-auto mb-4" />
             )}
             <h1 className="text-4xl font-bold text-gray-900 mb-2">
-              {notificationStatus === 'success' ? 'Appointment Confirmed! ✅' : 'Booking Recorded! ⚠️'}
+              Appointment Booked!
             </h1>
             <p className={`text-lg font-semibold ${notificationStatus === 'success' ? 'text-green-600' : 'text-red-600'}`}>
               {notificationMessage}
@@ -598,7 +623,6 @@ const BookAppointmentContent = () => {
 
 const BookAppointment = () => {
   return (
-    // <LoadingState /> is now accessible here.
     <Suspense fallback={<LoadingState />}>
       <BookAppointmentContent />
     </Suspense>
