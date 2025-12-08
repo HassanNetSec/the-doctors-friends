@@ -1,20 +1,29 @@
 "use client";
 import React, { useState } from "react";
+// **CORRECTED IMPORT:** Using useRouter from next/router
+import { useRouter } from "next/router"; 
+
 import {
   Heart,
   Brain,
   Bone,
-  Search,
   Star,
   Users,
   Calendar,
   ChevronRight,
-  Menu,
-  X,
 } from "lucide-react";
 
 const LandingPage = () => {
-  const [searchQuery, setSearchQuery] = useState("");
+  // **CORRECTED USAGE:** Initialize the router hook
+  const router = useRouter(); 
+
+  // State for search query is removed as requested
+  
+  // New function to handle the "Find Your Doctor Now" button click
+  const handleGetStarted = () => {
+    // This will redirect the user to the specified authentication/signup page
+    router.push("/components/Authentication");
+  };
 
   const specialties = [
     {
@@ -64,13 +73,6 @@ const LandingPage = () => {
     },
   ];
 
-  const handleSearch = () => {
-    if (searchQuery.trim()) {
-      alert(`Searching for: ${searchQuery}`);
-      // Navigate to search results page
-    }
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50">
 
@@ -97,13 +99,12 @@ const LandingPage = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-              <button className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-xl font-semibold text-lg shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 cursor-pointer">
+              <button 
+                className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-xl font-semibold text-lg shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 cursor-pointer"
+                onClick={handleGetStarted} 
+              >
                 <span>Find Your Doctor Now</span>
                 <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
-
-              <button className="px-8 py-4 bg-white text-gray-700 rounded-xl font-semibold text-lg shadow-md hover:shadow-lg transition-all duration-300 border-2 border-gray-200 hover:border-blue-300 cursor-pointer">
-                Learn More
               </button>
             </div>
 
@@ -188,38 +189,6 @@ const LandingPage = () => {
                 <p className="text-gray-600 text-sm">{specialty.description}</p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Quick Search Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-600 to-cyan-500">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">
-            Ready to Find Your Doctor?
-          </h2>
-          <p className="text-xl text-blue-100 mb-8">
-            Search by specialty, location, or doctor name
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto">
-            <div className="flex-1 relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <input
-                type="text"
-                placeholder="Try 'Pediatrician' or 'ENT'..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyPress={(e) => e.key === "Enter" && handleSearch()}
-                className="w-full pl-12 pr-4 py-4 rounded-xl text-lg focus:outline-none focus:ring-4 focus:ring-blue-300 shadow-lg"
-              />
-            </div>
-            <button
-              onClick={handleSearch}
-              className="px-8 py-4 bg-white text-blue-600 rounded-xl font-semibold text-lg shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 cursor-pointer"
-            >
-              Search
-            </button>
           </div>
         </div>
       </section>
