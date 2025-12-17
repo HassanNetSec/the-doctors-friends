@@ -1,0 +1,17 @@
+[
+  {
+    "doctor": {
+      "name": "Dr. Zeeshan Lee",
+      "email": "zeeshan.lee@neurocare.pk",
+      "hospital": "Brain & Spine Clinic Jehangira",
+      "location": "Jehangira, KP"
+    },
+    "patient": {
+      "name": "hhuy",
+      "email": "u2023243@giki.edu.pk",
+      "phone": "329-9987271"
+    },
+    "appointmentId": "APT-94741237-555",
+    "bookingDate": "December 17, 2025 at 11:05 PM"
+  }
+]
