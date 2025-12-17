@@ -1,6 +1,6 @@
 "use client";
 import React, { ChangeEvent, useState, useEffect } from "react";
-import { Search, MapPin, Star, DollarSign, Briefcase, Phone, Mail, Languages, Filter, X, ChevronDown, Calendar, User, Building2, Award, Clock } from "lucide-react";
+import { Search, MapPin, Star, Coins, Briefcase, Phone, Mail, Languages,Filter, X, ChevronDown, Calendar, User, Building2, Award, Clock } from "lucide-react";
 import mockDoctorData from "../components/doctors.json"
 import { useRouter } from "next/navigation";
 // The complete list of specialties
@@ -230,7 +230,7 @@ const SearchDoctor = () => {
                 <div className="bg-gradient-to-r from-blue-500 to-cyan-500 p-6 text-white">
                   <div className="flex items-start justify-between mb-2">
                     <div className="flex-1">
-                      <h3 className="text-2xl font-bold mb-1">Dr. {doctor.name}</h3>
+                      <h3 className="text-2xl font-bold mb-1">{doctor.name}</h3>
                       <span className="inline-block bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium">
                         {doctor.specialty}
                       </span>
@@ -272,7 +272,7 @@ const SearchDoctor = () => {
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium text-gray-700">Consultation Fee</span>
                       <div className="flex items-center gap-1">
-                        <DollarSign className="w-5 h-5 text-green-600" />
+                        <Coins className="w-5 h-5 text-green-600" />
                         <span className="text-2xl font-bold text-green-600">
                           {doctor.consultation_fee_usd}
                         </span>
