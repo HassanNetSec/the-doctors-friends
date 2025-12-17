@@ -1,142 +1,111 @@
 import nodemailer from 'nodemailer';
-import { NextResponse } from 'next/server'; // Import this utility for creating responses
+import { NextResponse } from 'next/server';
+import fs from 'fs';
+import path from 'path';
 
-// Pull credentials from environment variables (from .env.local)
+// Email credentials from environment variables
 const SENDER_EMAIL = process.env.SENDER_EMAIL;
 const APP_PASSWORD = process.env.APP_PASSWORD;
 
-/**
- * Sends the email using Nodemailer.
- */
+// Local JSON file path
+const EMAIL_FILE_PATH = path.join(
+  process.cwd(),
+  'app/components/patientDoctorInformation.json'
+);
+
+// Function to send email
 const sendEmail = async (mailOptions) => {
-    if (!SENDER_EMAIL || !APP_PASSWORD) {
-        throw new Error("Email credentials not configured on the server.");
-    }
+  if (!SENDER_EMAIL || !APP_PASSWORD) {
+    throw new Error("Email credentials not configured on the server.");
+  }
 
-    const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 587,
-        secure: false, 
-        auth: {
-            user: SENDER_EMAIL,
-            pass: APP_PASSWORD, 
-        },
-    });
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,
+    auth: { user: SENDER_EMAIL, pass: APP_PASSWORD },
+  });
 
-    return await transporter.sendMail(mailOptions);
+  return await transporter.sendMail(mailOptions);
 };
 
-// This function handles incoming POST requests.
 export async function POST(req) {
+  try {
+    const body = await req.json();
+    const { doctor, formData, receiptData } = body;
+
+    // --- Construct Email ---
+    const subject = `Appointment Confirmation for Dr. ${doctor.name} on ${formData.date}`;
+    const htmlContent = `
+      <html>
+      <body>
+        <h1>Appointment for Dr. ${doctor.name}</h1>
+        <h2>Patient Info</h2>
+        <p>Name: ${formData.patientName}</p>
+        <p>Email: ${formData.email}</p>
+        <p>Phone: ${formData.phone}</p>
+        <h2>Appointment Info</h2>
+        <p>Date: ${formData.date}</p>
+        <p>Time: ${formData.time}</p>
+        <p>Location: ${doctor.hospital} (${doctor.location})</p>
+        <p>Reason: ${formData.reason}</p>
+        <p>Appointment ID: ${receiptData.appointmentId}</p>
+        <p>Booking Date: ${receiptData.bookingDate}</p>
+      </body>
+      </html>
+    `;
+
+    const mailOptions = {
+      from: `Appointment System <${SENDER_EMAIL}>`,
+      to: [formData.email, doctor.email], // send to both patient and doctor
+      subject,
+      html: htmlContent,
+    };
+
+    // Send email
+    await sendEmail(mailOptions);
+
+    // --- Save info locally ---
+    let existingData = [];
     try {
-        const body = await req.json();
-        const { doctor, formData, receiptData } = body;
-
-        // --- 1. Construct Email Content ---
-        const subject = `Appointment Confirmation for Dr. ${doctor.name} on ${formData.date}`;
-        
-        // Removed the extra backtick on the line below
-   const htmlContent = `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>New Appointment Alert</title>
-        <style>
-            body { font-family: sans-serif; line-height: 1.6; color: #333; }
-            .container { max-width: 650px; margin: 20px auto; border: 1px solid #cce5ff; background-color: #f8faff; padding: 25px; border-radius: 10px; }
-            h1 { color: #004085; border-bottom: 2px solid #b8daff; padding-bottom: 12px; margin-bottom: 25px; }
-            h2 { color: #004085; margin-top: 25px; border-left: 4px solid #007bff; padding-left: 10px; }
-            ul { list-style: none; padding: 0; }
-            li { margin-bottom: 10px; padding: 8px 0; border-bottom: 1px dotted #e1e1e1; }
-            strong { color: #1f2937; }
-            .alert-text { background-color: #fff3cd; color: #856404; padding: 10px; border-radius: 5px; font-weight: bold; margin-bottom: 20px; text-align: center; }
-            .fee { font-weight: bold; color: #10b981; }
-            .footer { margin-top: 30px; padding-top: 15px; border-top: 1px solid #ddd; font-size: 0.9em; color: #666; }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="alert-text">
-                🔔 NEW APPOINTMENT ALERT - Via The Doctor Friends 🔔
-            </div>
-            <h1>Appointment Request for Dr. ${doctor.name}</h1>
-            
-            <p style="font-size: 1.1em;">
-                A new appointment has been successfully scheduled for you through the <strong>Local Health Hub</strong> application.
-            </p>
-
-            <h2>👤 Patient Contact Details</h2>
-            <ul>
-                <li><strong>Patient Name:</strong> ${formData.patientName}</li>
-                <li><strong>Email:</strong> ${formData.email}</li>
-                <li><strong>Phone:</strong> ${formData.phone}</li>
-            </ul>
-
-            <h2>📅 Appointment Details</h2>
-            <ul>
-                <li><strong>Date:</strong> ${formData.date}</li>
-                <li><strong>Time:</strong> ${formData.time}</li>
-                <li><strong>Location:</strong> ${doctor.hospital} (${doctor.location})</li>
-                <li><strong>Reason for Visit:</strong> ${formData.reason}</li>
-            </ul>
-            
-            ${formData.notes ? `
-            <h2>📝 Patient Notes/Symptoms</h2>
-            <p style="padding: 10px; border: 1px solid #ffc107; background-color: #fffbe6;">
-                ${formData.notes}
-            </p>` : ''}
-
-            <h2>📋 Booking/Financial Information</h2>
-            <ul>
-                <li><strong>Appointment ID:</strong> ${receiptData.appointmentId}</li>
-                <li><strong>Booking Date:</strong> ${receiptData.bookingDate}</li>
-                <li><strong>Consultation Fee:</strong> <span class="fee">PKR ${doctor.consultation_fee_usd}</span> (Payable at clinic)</li>
-            </ul>
-
-            <div class="footer">
-                <p>This notification was generated by the Local Health Hub application.</p>
-                <p>Please check your clinic's scheduling system for confirmation.</p>
-            </div>
-        </div>
-    </body>
-    </html>
-`;
-
-        // Configure the mail options
-        const mailOptions = {
-            from: `Appointment System <${SENDER_EMAIL}>`,
-            to: [formData.email, doctor.email],
-            subject: subject,
-            html: htmlContent,
-        };
-
-        // --- 2. Send Email ---
-        await sendEmail(mailOptions);
-
-        console.log('Email sent successfully.');
-        
-        // --- 3. Respond to Client using NextResponse ---
-        return NextResponse.json({ 
-            success: true, 
-            message: 'Email notification sent successfully.' 
-        }, { status: 200 });
-
-    } catch (error) {
-        console.error('API Email Error:', error);
-        
-        // Return a generic 500 error to the client
-        return NextResponse.json({ 
-            success: false, 
-            message: 'Failed to send email notification due to a server error.' 
-        }, { status: 500 });
+      const fileContent = fs.existsSync(EMAIL_FILE_PATH)
+        ? fs.readFileSync(EMAIL_FILE_PATH, 'utf-8')
+        : '';
+      existingData = fileContent ? JSON.parse(fileContent) : [];
+    } catch {
+      existingData = []; // initialize if file is empty or invalid
     }
-}
 
-// You can optionally define other methods like this:
-/*
-export async function GET(req) {
-    return NextResponse.json({ message: "GET not supported" }, { status: 405 });
+    existingData.push({
+      doctor: {
+        name: doctor.name,
+        email: doctor.email,
+        hospital: doctor.hospital,
+        location: doctor.location,
+      },
+      patient: {
+        name: formData.patientName,
+        email: formData.email,
+        phone: formData.phone,
+      },
+      appointmentId: receiptData.appointmentId,
+      bookingDate: receiptData.bookingDate,
+    });
+
+    fs.writeFileSync(EMAIL_FILE_PATH, JSON.stringify(existingData, null, 2));
+
+    return NextResponse.json({
+      success: true,
+      message: 'Email sent and patient/doctor info saved successfully.',
+    });
+  } catch (error) {
+    console.error('Email/Save Error:', error);
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Failed to send email or save info.',
+      },
+      { status: 500 }
+    );
+  }
 }
-*/
