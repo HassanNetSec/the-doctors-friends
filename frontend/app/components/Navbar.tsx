@@ -1,106 +1,113 @@
 "use client";
-import React, { useState } from "react";
-import {
-  Heart,
-  Menu,
-  X,
-} from "lucide-react";
+
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-const Navbar = () => {
-  const router = useRouter();
+import { Heart, Menu, X } from "lucide-react";
+
+interface NavbarProps {
+  isAuthenticated: boolean;
+  onLogout: () => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter();
+
   const handleGetStarted = () => {
-    router.push("/components/Authentication");
+    const token = localStorage.getItem("token");
+    router.push(token ? "/search_doctors" : "/components/Authentication");
+    setIsMenuOpen(false);
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-sm z-50">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-blue-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="h-16 flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center">
-              <Heart className="w-6 h-6 text-white" fill="white" />
-            </div>
-            <span className="text-xl font-bold text-gray-900">
-              The Doctor's Friend
+          <div
+            onClick={() => router.push("/")}
+            className="flex items-center gap-2 cursor-pointer"
+          >
+            <Heart className="w-6 h-6 text-blue-600" fill="currentColor" />
+            <span className="text-lg font-semibold text-blue-600">
+              doctor<span className="text-blue-500">Friend</span>
             </span>
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <a
-              href="#specialties"
-              className="text-gray-700 hover:text-blue-600 transition"
-            >
-              Specialties
-            </a>
-            <a
-              href="#how-it-works"
-              className="text-gray-700 hover:text-blue-600 transition"
-            >
-              How It Works
-            </a>
-            <a
-              href="#about"
-              className="text-gray-700 hover:text-blue-600 transition"
-            >
-              About
-            </a>
-            <button
-              className="px-6 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-lg"
-              onClick={handleGetStarted}
-            >
-              Get Started
-            </button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden p-2"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
-          </button>
-        </div>
-
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4 border-t">
-            <div className="flex flex-col space-y-4">
-              <a
-                href="#specialties"
-                className="text-gray-700 hover:text-blue-600 transition"
-              >
-                Specialties
-              </a>
-              <a
-                href="#how-it-works"
-                className="text-gray-700 hover:text-blue-600 transition"
-              >
-                How It Works
-              </a>
-              <a
-                href="#about"
-                className="text-gray-700 hover:text-blue-600 transition"
-              >
-                About
-              </a>
+          {/* Desktop */}
+          <div className="hidden md:flex items-center gap-8">
+            {isAuthenticated && (
               <button
-                className="px-6 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-lg"
+                onClick={() => router.push("/search_doctors")}
+                className="text-sm font-medium text-blue-600 hover:text-blue-700"
+              >
+                Find Doctors
+              </button>
+            )}
+
+            {isAuthenticated ? (
+              <button
+                onClick={onLogout}
+                className="text-sm font-medium text-blue-600 hover:underline"
+              >
+                Logout
+              </button>
+            ) : (
+              <button
                 onClick={handleGetStarted}
+                className="px-5 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition"
               >
                 Get Started
               </button>
-            </div>
+            )}
           </div>
-        )}
+
+          {/* Mobile menu button */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="md:hidden text-blue-600"
+          >
+            {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
       </div>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-white border-t border-blue-100">
+          <div className="px-4 py-4 space-y-4">
+            {isAuthenticated && (
+              <button
+                onClick={() => {
+                  router.push("/search_doctors");
+                  setIsMenuOpen(false);
+                }}
+                className="block w-full text-left text-blue-600 font-medium"
+              >
+                Find Doctors
+              </button>
+            )}
+
+            {isAuthenticated ? (
+              <button
+                onClick={onLogout}
+                className="block w-full text-left text-blue-600 font-medium"
+              >
+                Logout
+              </button>
+            ) : (
+              <button
+                onClick={handleGetStarted}
+                className="w-full py-2 text-sm font-medium text-white bg-blue-600 rounded-md"
+              >
+                Get Started
+              </button>
+            )}
+          </div>
+        </div>
+      )}
     </nav>
   );
 };
-export default Navbar
+
+export default Navbar;
