@@ -34,6 +34,7 @@ interface Receipt {
   appointmentId: string;
   patientId: string;
   bookingDate: string;
+  Patientemail : string
 }
 
 type NotificationStatus = 'idle' | 'success' | 'error';
@@ -206,13 +207,14 @@ const BookAppointmentContent = () => {
     const receiptData: Receipt = {
         appointmentId: generateAppointmentId(),
         patientId: generatePatientId(),
+        Patientemail : formData.email,
         bookingDate: new Date().toLocaleString('en-US', {
             year: 'numeric',
             month: 'long',
             day: 'numeric',
             hour: '2-digit',
             minute: '2-digit'
-        })
+        }),
     };
 
     try {
@@ -326,7 +328,7 @@ const BookAppointmentContent = () => {
                 <div>
                   <h3 className="text-xl font-bold text-gray-900 mb-4">👨‍⚕️ Doctor Information</h3>
                   <div className="space-y-3 bg-gray-50 rounded-lg p-4">
-                    <ReceiptRow label="Doctor Name" value={`Dr. ${doctor.name}`} />
+                    <ReceiptRow label="Doctor Name" value={`${doctor.name}`} />
                     <ReceiptRow label="Specialty" value={doctor.specialty} />
                     <ReceiptRow label="Hospital" value={doctor.hospital} />
                     <ReceiptRow label="Location" value={doctor.location} />
@@ -448,7 +450,7 @@ const BookAppointmentContent = () => {
         <div className="bg-white rounded-2xl shadow-xl p-6 mb-8">
           <div className="flex items-start justify-between flex-wrap gap-4">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">Dr. {doctor.name}</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-2">{doctor.name}</h2>
               <p className="text-xl text-blue-600 font-medium mb-1">{doctor.specialty} Specialist</p>
               <p className="text-gray-600">{doctor.hospital}</p>
               <p className="text-gray-600">{doctor.location}</p>
