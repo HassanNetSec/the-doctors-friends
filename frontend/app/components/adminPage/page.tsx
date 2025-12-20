@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import patientDoctorInformation from "../patientDoctorInformation.json";
-import patientSignInInfo from "../PatientSignInInfo.json";
-import { Users, Calendar, DollarSign, UserCheck } from "lucide-react";
+import { Users, Calendar, DollarSign, UserCheck, RefreshCw } from "lucide-react";
 
 interface PatientRecord {
   appointmentId: string;
@@ -24,13 +23,42 @@ interface PatientRecord {
 interface SignInRecord {
   email: string;
   password: string;
-  timestamp?: string; // Made optional to handle missing timestamps
+  timestamp?: string;
 }
 
 const AdminPage = () => {
   const [patients, setPatients] = useState<PatientRecord[]>(patientDoctorInformation);
-  const [signInData, setSignInData] = useState<SignInRecord[]>(patientSignInInfo);
+  const [signInData, setSignInData] = useState<SignInRecord[]>([]);
   const [activeTab, setActiveTab] = useState<"appointments" | "users">("appointments");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch sign-in data from API on component mount
+  useEffect(() => {
+    fetchSignInData();
+  }, []);
+
+  const fetchSignInData = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch('/api/savePatientInfo', {
+        method: 'GET',
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setSignInData(data);
+      } else {
+        throw new Error('Failed to fetch user data');
+      }
+    } catch (err: any) {
+      console.error('Error fetching sign-in data:', err);
+      setError(err.message || 'Failed to load user data');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleReceive = (appointmentId: string) => {
     console.log(`Payment received for appointment ID: ${appointmentId}`);
@@ -186,8 +214,30 @@ const AdminPage = () => {
       {/* Users Table */}
       {activeTab === "users" && (
         <div className="bg-white rounded-xl shadow-lg p-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">Registered Users</h2>
-          {signInData.length === 0 ? (
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold text-gray-800">Registered Users</h2>
+            <button
+              onClick={fetchSignInData}
+              disabled={loading}
+              className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+              <span>{loading ? 'Refreshing...' : 'Refresh'}</span>
+            </button>
+          </div>
+
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
+              {error}
+            </div>
+          )}
+
+          {loading && signInData.length === 0 ? (
+            <div className="text-center py-20">
+              <RefreshCw className="w-12 h-12 text-blue-600 animate-spin mx-auto mb-4" />
+              <p className="text-gray-500 text-lg">Loading user data...</p>
+            </div>
+          ) : signInData.length === 0 ? (
             <p className="text-center text-gray-500 mt-20 text-lg">
               No registered users yet.
             </p>
