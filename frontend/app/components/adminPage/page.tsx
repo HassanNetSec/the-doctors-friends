@@ -24,7 +24,7 @@ interface PatientRecord {
 interface SignInRecord {
   email: string;
   password: string;
-  timestamp: string;
+  timestamp?: string; // Made optional to handle missing timestamps
 }
 
 const AdminPage = () => {
@@ -37,7 +37,8 @@ const AdminPage = () => {
     setPatients((prev) => prev.filter((p) => p.appointmentId !== appointmentId));
   };
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return 'N/A';
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { 
       year: 'numeric', 
