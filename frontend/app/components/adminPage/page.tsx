@@ -42,19 +42,28 @@ const AdminPage = () => {
     setLoading(true);
     setError(null);
     try {
+      console.log('Fetching sign-in data from API...');
       const response = await fetch('/api/savePatientInfo', {
         method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
+
+      console.log('Response status:', response.status);
 
       if (response.ok) {
         const data = await response.json();
-        setSignInData(data);
+        console.log('Fetched data:', data);
+        setSignInData(Array.isArray(data) ? data : []);
       } else {
-        throw new Error('Failed to fetch user data');
+        const errorData = await response.json();
+        console.error('Error response:', errorData);
+        throw new Error(errorData.message || `HTTP ${response.status}: Failed to fetch user data`);
       }
     } catch (err: any) {
       console.error('Error fetching sign-in data:', err);
-      setError(err.message || 'Failed to load user data');
+      setError(err.message || 'Failed to load user data. Please check console for details.');
     } finally {
       setLoading(false);
     }
