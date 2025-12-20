@@ -1,20 +1,72 @@
-// API Route to update PatientSignInInfo.json in GitHub repo
+import { NextResponse } from 'next/server';
+
+// ✅ CORRECT PATH: Must start with "frontend/" and NO leading slash
+// ✅ CORRECT: Relative path starting from the repository root
+const FILE_PATH = 'frontend/app/components/PatientSignInInfo.json';
+
+export async function GET(req) {
+  try {
+    const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+    const REPO_OWNER = process.env.GITHUB_OWNER;
+    const REPO_NAME = process.env.GITHUB_REPO;
+
+    // Validate environment variables
+    if (!GITHUB_TOKEN || !REPO_OWNER || !REPO_NAME) {
+      return NextResponse.json({ 
+        message: 'Missing GitHub configuration', 
+        error: 'GITHUB_TOKEN, GITHUB_OWNER, or GITHUB_REPO not set' 
+      }, { status: 500 });
+    }
+
+    console.log(`Fetching from GitHub: ${REPO_OWNER}/${REPO_NAME}/${FILE_PATH}`);
+
+    const response = await fetch(
+      `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,
+      {
+        headers: {
+          'Authorization': `Bearer ${GITHUB_TOKEN}`,
+          'Accept': 'application/vnd.github.v3+json',
+        },
+        cache: 'no-store' // Ensure we always get fresh data
+      }
+    );
+
+    // ✅ FIX: If file doesn't exist (404), return empty array instead of crashing
+    if (response.status === 404) {
+      console.log('File not found on GitHub, returning empty list.');
+      return NextResponse.json([], { status: 200 });
+    }
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`GitHub API Error ${response.status}: ${errorText}`);
+    }
+
+    const fileData = await response.json();
+    const content = Buffer.from(fileData.content, 'base64').toString('utf-8');
+    const data = JSON.parse(content);
+
+    return NextResponse.json(data, { status: 200 });
+
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return NextResponse.json({ message: 'Error fetching data', error: error.message }, { status: 500 });
+  }
+}
+
 export async function POST(req) {
   try {
     const newData = await req.json();
     
-    // GitHub configuration - Get from Vercel Environment Variables (NEVER hardcode!)
     const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
     const REPO_OWNER = process.env.GITHUB_OWNER;
     const REPO_NAME = process.env.GITHUB_REPO;
-    const FILE_PATH = 'frontend/app/components/PatientSignInInfo.json';
     
-    // Validate environment variables
     if (!GITHUB_TOKEN || !REPO_OWNER || !REPO_NAME) {
-      throw new Error('Missing GitHub configuration. Please set GITHUB_TOKEN, GITHUB_OWNER, and GITHUB_REPO in Vercel environment variables.');
+      throw new Error('Missing GitHub configuration.');
     }
     
-    // Step 1: Get current file content from GitHub
+    // 1. Fetch existing file to get its SHA (required for updates)
     const getResponse = await fetch(
       `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,
       {
@@ -22,24 +74,27 @@ export async function POST(req) {
           'Authorization': `Bearer ${GITHUB_TOKEN}`,
           'Accept': 'application/vnd.github.v3+json',
         },
+        cache: 'no-store'
       }
     );
-    
-    if (!getResponse.ok) {
-      throw new Error(`Failed to fetch file: ${getResponse.statusText}`);
+
+    let existingData = [];
+    let sha = null;
+
+    // If file exists, parse it. If 404, we will create a new file (sha remains null)
+    if (getResponse.ok) {
+      const fileData = await getResponse.json();
+      sha = fileData.sha;
+      const content = Buffer.from(fileData.content, 'base64').toString('utf-8');
+      existingData = JSON.parse(content);
+    } else if (getResponse.status !== 404) {
+       throw new Error(`Failed to fetch file: ${getResponse.statusText}`);
     }
     
-    const fileData = await getResponse.json();
-    const sha = fileData.sha; // Required for updating
-    
-    // Decode existing content
-    const content = Buffer.from(fileData.content, 'base64').toString('utf-8');
-    let existingData = JSON.parse(content);
-    
-    // Step 2: Append new data
+    // 2. Append new data
     existingData.push(newData);
     
-    // Step 3: Update file on GitHub
+    // 3. Update (or Create) file on GitHub
     const updateResponse = await fetch(
       `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,
       {
@@ -52,7 +107,7 @@ export async function POST(req) {
         body: JSON.stringify({
           message: `Add patient signin: ${newData.email}`,
           content: Buffer.from(JSON.stringify(existingData, null, 2)).toString('base64'),
-          sha: sha,
+          sha: sha, // If sha is null, GitHub creates a new file.
         }),
       }
     );
@@ -62,97 +117,10 @@ export async function POST(req) {
       throw new Error(`Failed to update file: ${errorData.message}`);
     }
 
-    return new Response(JSON.stringify({ 
-      message: 'Data saved successfully to GitHub',
-      data: newData 
-    }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return NextResponse.json({ message: 'Data saved successfully', data: newData }, { status: 200 });
+
   } catch (error) {
     console.error('Error saving data:', error);
-    return new Response(JSON.stringify({ 
-      message: 'Error saving data', 
-      error: error.message 
-    }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  }
-}
-
-export async function GET(req) {
-  try {
-    const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-    const REPO_OWNER = process.env.GITHUB_OWNER;
-    const REPO_NAME = process.env.GITHUB_REPO;
-    const FILE_PATH = '/app/components/PatientSignInInfo.json';
-    
-    // Validate environment variables
-    if (!GITHUB_TOKEN || !REPO_OWNER || !REPO_NAME) {
-      console.error('Missing environment variables:', {
-        hasToken: !!GITHUB_TOKEN,
-        hasOwner: !!REPO_OWNER,
-        hasRepo: !!REPO_NAME
-      });
-      return new Response(JSON.stringify({ 
-        message: 'Missing GitHub configuration. Please check environment variables.',
-        error: 'GITHUB_TOKEN, GITHUB_OWNER, or GITHUB_REPO not set'
-      }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
-    
-    console.log('Fetching from GitHub:', `${REPO_OWNER}/${REPO_NAME}/${FILE_PATH}`);
-    
-    const response = await fetch(
-      `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,
-      {
-        headers: {
-          'Authorization': `Bearer ${GITHUB_TOKEN}`,
-          'Accept': 'application/vnd.github.v3+json',
-        },
-      }
-    );
-    
-    console.log('GitHub API response status:', response.status);
-    
-    if (response.ok) {
-      const fileData = await response.json();
-      const content = Buffer.from(fileData.content, 'base64').toString('utf-8');
-      const data = JSON.parse(content);
-      
-      console.log('Successfully fetched data, count:', data.length);
-      
-      return new Response(JSON.stringify(data), {
-        status: 200,
-        headers: { 
-          'Content-Type': 'application/json',
-          'Cache-Control': 'no-cache, no-store, must-revalidate'
-        },
-      });
-    } else {
-      const errorText = await response.text();
-      console.error('GitHub API error:', response.status, errorText);
-      
-      return new Response(JSON.stringify({ 
-        message: 'Failed to fetch from GitHub',
-        status: response.status,
-        error: errorText
-      }), {
-        status: response.status,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    return new Response(JSON.stringify({ 
-      message: 'Error fetching data', 
-      error: error.message 
-    }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return NextResponse.json({ message: 'Error saving data', error: error.message }, { status: 500 });
   }
 }
