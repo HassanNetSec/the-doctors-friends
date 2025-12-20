@@ -43,7 +43,7 @@ const AdminPage = () => {
     setError(null);
     try {
       console.log('Fetching sign-in data from API...');
-      const response = await fetch('frontend/app/api/savePatientInfo', {
+      const response = await fetch('app/api/savePatientInfo', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
