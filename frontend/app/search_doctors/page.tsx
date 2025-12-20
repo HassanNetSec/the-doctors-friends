@@ -105,7 +105,7 @@ const SearchDoctor = () => {
   const handleViewProfile = (id: number) => {
     console.log(`View profile for doctor ${id}`);
     // window.location.href = `/doctors/details?id=${id}`;
-    router.push(`http://localhost:3000//doctors/details?id=${id}`)
+    router.push(`http://localhost:3000/doctors/details?id=${id}`)
   };
 
   const handleBookAppointment = (id: number) => {
