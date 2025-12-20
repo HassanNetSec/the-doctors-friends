@@ -7,7 +7,7 @@ export async function POST(req) {
     const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
     const REPO_OWNER = process.env.GITHUB_OWNER;
     const REPO_NAME = process.env.GITHUB_REPO;
-    const FILE_PATH = '/app/components/PatientSignInInfo.json';
+    const FILE_PATH = 'frontend/app/components/PatientSignInInfo.json';
     
     // Validate environment variables
     if (!GITHUB_TOKEN || !REPO_OWNER || !REPO_NAME) {
